@@ -25,7 +25,8 @@ configs:
 
     variables:
       decorateWords:
-        $forEach: ${inputs.someWords}
+        #$forEach: [zero, one, two] # this works just fine
+        $forEach: ${inputs.someWords} # this throws an error
         $return: '"${item.value}" is at index ${item.key}'
 
     spec:
