@@ -1,0 +1,34 @@
+apiVersion: garden.io/v1
+kind: Project
+name: pgbuckle
+
+environments:
+  - name: default
+
+---
+kind: RenderTemplate
+template: foobar
+name: baz
+
+inputs:
+  someWords: [zero, one, two, three, four]
+
+---
+kind: ConfigTemplate
+name: foobar
+inputsSchemaPath: foobar.schema.json
+
+configs:
+  - kind: Run
+    type: exec
+    name: ${parent.name}
+
+    variables:
+      decorateWords:
+        $forEach: ${inputs.someWords}
+        $return: '"${item.value}" is at index ${item.key}'
+
+    spec:
+      command:
+        - echo
+        - ${jsonEncode(var.decorateWords)}
